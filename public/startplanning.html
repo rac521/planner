@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Planning</title>
+</head>
+<body>
+    <h1>Start Planning Your Trip</h1>
+    <form action="/create" method="POST">
+        <label for="tripName">Trip Name:</label>
+        <input type="text" id="tripName" name="tripName" required><br>
+        <label for="destination">Destination:</label>
+        <select id="destination" name="destination" required>
+            <option value="rajasthan">Rajasthan</option>
+            <option value="kerala">Kerala</option>
+        </select><br>
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" name="startDate" required><br>
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" name="endDate" required><br>
+        <button type="submit">Start Planning</button>
+    </form>
+    <a href="/">Back to Home</a>
+</body>
+</html>

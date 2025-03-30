@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= trip.trip_name %> - Kerala</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+</head>
+<body>
+
+    <% if (trip) { %>
+        <h1>Trip: <%= trip ? trip.trip_name : 'No Trip Found' %></h1>
+        <h2>Destination: <%= trip ? trip.destination : '' %></h2>
+        <h3>Start Date: <%= trip ? new Date(trip.start_date).toDateString() : 'N/A' %></h3>
+        <h3>End Date: <%= trip ? new Date(trip.end_date).toDateString() : 'N/A' %></h3>
+
+        <h2>Itinerary</h2>
+        <ul id="itinerary-list">
+            <% itinerary.forEach(function(day, index) { %>
+                <h3>Day <%= day.day_number %>: <%= day.location %></h3>
+                <ul class="day-list" data-day="<%= day.day_number %>">
+                    <% 
+                        let activities = Array.isArray(day.activities) ? day.activities : day.activities.split(','); 
+                        activities.forEach(function(activity, i) { 
+                    %>
+                        <li class="draggable" draggable="true" data-activity-index="<%= i %>">
+                            <%= activity.trim() %>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% }) %>
+        </ul>
+
+        <button id="save-order">Save Order</button>
+
+    <% } else { %>
+        <h2>No Kerala Trip Found</h2>
+    <% } %>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.day-list').forEach(dayList => {
+                new Sortable(dayList, {
+                    animation: 150,
+                    group: 'shared',
+                    ghostClass: 'sortable-ghost',
+                    onEnd: () => {
+                        console.log("Reordered activities!");
+                    }
+                });
+            });
+
+            document.getElementById('save-order').addEventListener('click', () => {
+                let itineraryData = [];
+
+                document.querySelectorAll('.day-list').forEach(dayList => {
+                    let dayNumber = dayList.getAttribute('data-day');
+                    let activities = [];
+                    dayList.querySelectorAll('.draggable').forEach(item => {
+                        activities.push(item.textContent.trim());
+                    });
+
+                    itineraryData.push({ day_number: dayNumber, activities: activities });
+                });
+                
+                const tripId = "<%= trip && trip.id ? trip.id : '' %>";
+                console.log("uygf");
+                fetch('/update-itinerary', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ itinerary: itineraryData, tripId: tripId }) // Fix applied
+                })
+                .then(response => response.json())
+                .then(data => console.log("Success:", data))
+                .catch(error => console.error("Error:", error));
+
+
+
+                
+            });
+        });
+    </script>
+
+</body>
+</html>

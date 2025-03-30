@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Itinerary</title>
+</head>
+<body>
+    <% if (trip) { %>
+        <h1>Saved Itinerary for <%= trip.trip_name %></h1>
+        <h2>Destination: <%= trip.destination %></h2>
+        <h3>Start Date: <%= new Date(trip.start_date).toDateString() %></h3>
+        <h3>End Date: <%= new Date(trip.end_date).toDateString() %></h3>
+
+        <h2>Itinerary</h2>
+        <ul>
+            <% itinerary.forEach(function(day) { %>
+                <li>Day <%= day.day_number %>: <%= day.location %> - <%= day.activities %></li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <h2>No saved itinerary found</h2>
+    <% } %>
+</body>
+</html>

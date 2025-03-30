@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Go</title>
+</head>
+<body>
+    <h1>Welcome to Travel Go</h1>
+    <p>Plan your perfect trip across India!</p>
+
+    <% if (!userId) { %>
+        <a href="/login">Login</a>
+        <a href="/signup">Sign Up</a>
+    <% } else { %>
+        <a href="/dashboard">Go to Dashboard</a>
+    <% } %>
+    <% if (userId) { %>
+        <a href="/startplanning">Start Planning</a>
+        <a href="/saved-itinerary">Load Saved Itinerary</a>
+    <% } %>
+    
+</body>
+</html>

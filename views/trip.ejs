@@ -1,0 +1,10 @@
+<h1><%= trip.trip_name %> - <%= trip.destination %></h1>
+<p>Start Date: <%= trip.start_date.toDateString() %></p>
+<p>End Date: <%= trip.end_date.toDateString() %></p>
+
+<h2>Itinerary</h2>
+<ul>
+  <% itinerary.forEach(item => { %>
+    <li>Day <%= item.day %>: <%= item.activity %></li>
+  <% }) %>
+</ul>
